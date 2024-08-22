@@ -6,6 +6,9 @@ name = "pypi"
 [packages]
 pytelegrambotapi = "*"
 python-dotenv = "*"
+huey = "*"
+beautifulsoup4 = "*"
+lxml = "*"
 
 [dev-packages]
 
