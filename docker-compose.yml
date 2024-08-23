@@ -18,5 +18,5 @@ services:
       - lun_network
 
 networks:
-  my_network:
+  lun_network:
     driver: bridge
