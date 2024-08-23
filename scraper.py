@@ -50,17 +50,26 @@ class LUNRentScraper:
     def scrape(self) -> list[dict]:
         page = 1
         results = []
-        ids = []
-        while self.last_scraped_id not in ids and page < 2:
+        ids = set()
+
+        while True:
             url = f'{self.search_url}&page={page}'
             soup_realties = self.get_page_realties(url)
+
             if not soup_realties:
                 break
+
             page_results = self.parse(soup_realties)
             results.extend(page_results)
+
+            current_ids = {realty['id'] for realty in page_results}
+
+            if self.last_scraped_id == -1 or self.last_scraped_id in ids:
+                break
+
             page += 1
-            ids = [realty['id'] for realty in page_results]
-            print(results)
+            ids.update(current_ids)
+
         return results
 
 
