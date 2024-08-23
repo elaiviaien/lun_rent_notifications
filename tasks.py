@@ -3,7 +3,7 @@ from huey import RedisHuey, crontab
 from bot import process_order, send_notifications
 from utils import get_orders
 
-huey = RedisHuey('LUN_notifications', host='lun-redis-server', port=6379)
+huey = RedisHuey('LUN_notifications', host='redis', port=6379)
 
 @huey.periodic_task(crontab(minute='*/20'))
 def periodic_scraping():
