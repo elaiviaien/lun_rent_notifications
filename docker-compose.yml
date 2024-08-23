@@ -7,14 +7,14 @@ services:
     volumes:
       - .:/app
     environment:
-      - REDIS_HOST=lun-redis-server
+      - REDIS_HOST=redis
       - REDIS_PORT=6379
     networks:
       - lun_network
 
   redis:
     image: redis
-    container_name: lun-redis-server
+    container_name: redis
     networks:
       - lun_network
 
