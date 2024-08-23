@@ -1,3 +1,5 @@
 .idea
 .env
 orders.csv
+supervisord.pid
+supervisord.log

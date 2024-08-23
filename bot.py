@@ -65,10 +65,10 @@ def send_notifications(user_id, realties):
         markup.add(button)
 
         if picture_url:
-            bot.send_photo(user_id, picture_url, caption=caption, parse_mode='Markdown',
+            bot.send_photo(user_id, picture_url, caption=caption[:200], parse_mode='Markdown',
                            reply_markup=markup)
         else:
-            bot.send_message(user_id, caption, parse_mode='Markdown', reply_markup=markup)
+            bot.send_message(user_id, caption[:200], parse_mode='Markdown', reply_markup=markup)
 
 
 if __name__ == '__main__':
