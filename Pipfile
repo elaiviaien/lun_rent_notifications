@@ -10,6 +10,7 @@ huey = "*"
 beautifulsoup4 = "*"
 lxml = "*"
 curl-cffi = "*"
+redis = "*"
 
 [dev-packages]
 

@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    command: pipenv run supervisord -c /etc/supervisor/conf.d/supervisord.conf
+    volumes:
+      - .:/app
+    environment:
+      - REDIS_HOST=lun-redis-server
+      - REDIS_PORT=6379
+    networks:
+      - lun_network
+
+  redis:
+    image: redis
+    networks:
+      - lun_network
+
+networks:
+  my_network:
+    driver: bridge
