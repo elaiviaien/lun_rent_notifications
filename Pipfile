@@ -9,6 +9,7 @@ python-dotenv = "*"
 huey = "*"
 beautifulsoup4 = "*"
 lxml = "*"
+curl-cffi = "*"
 
 [dev-packages]
 
