@@ -16,6 +16,10 @@ class LUNRentScraper:
             'description': 'p.realty-preview-description__text',
             'picture': 'picture  img'
         }
+    def get_full_html_page(self)->str:
+        response = requests.get(self.search_url)
+        content = response.text
+        return content
 
     def _validate_url(self) -> None:
         # remove page argument from url

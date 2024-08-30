@@ -1,3 +1,5 @@
+import tempfile
+
 import telebot
 from dotenv import load_dotenv
 import os
@@ -40,6 +42,18 @@ def make_order(message):
             bot.send_message(message.from_user.id, "❗️Надішли мені посилання на сторінку з фільтрами на сайті ЛУН."
                                                    " Формат: https://lun.ua/...")
 
+
+@bot.message_handler(commands=['debug_link'])
+def debug_link(message):
+    if "https://lun.ua/" in message.text:
+        if len(message.text.split())<2 or not message.text.split()[1].startswith("https://lun.ua/"):
+            bot.send_message(message.from_user.id, "❗️Неправильний формат")
+            return
+        link = message.text.split()[1]
+        content = debug_process_order([message.from_user.id, link, -1])
+        send_temp_html(message.from_user.id, content)
+
+
 def process_order(order: list[str]) -> list[dict]:
     user_id, search_url, last_scraped_id = order
 
@@ -47,6 +61,26 @@ def process_order(order: list[str]) -> list[dict]:
     realties = scraper.scrape()
 
     return realties
+
+
+def debug_process_order(order: list[str]) -> str:
+    user_id, search_url, last_scraped_id = order
+
+    scraper = LUNRentScraper(search_url, int(last_scraped_id))
+    content = scraper.get_full_html_page()
+
+    return content
+
+
+def send_temp_html(user_id, content: str):
+    with tempfile.NamedTemporaryFile(mode="w+", delete=False, prefix="debug_", suffix=".html") as file:
+        file.write(content)
+        file.flush()
+        temp_file_name = file.name
+
+    with open(temp_file_name, "rb") as file_to_send:
+        bot.send_document(user_id, file_to_send)
+    os.remove(temp_file_name)
 
 
 def send_notifications(user_id, realties):
