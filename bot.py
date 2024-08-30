@@ -22,6 +22,16 @@ def start(message):
     bot.send_message(message.from_user.id, "👋 Привіт! Я допоможу тобі з пошуком квартири на ЛУН")
     bot.send_message(message.from_user.id, "🔗Надішли мені посилання на сторінку з фільтрами на сайті ЛУН")
 
+@bot.message_handler(commands=['debug_link'])
+def debug_link(message):
+    if "https://lun.ua/" in message.text:
+        if len(message.text.split())<2 or not message.text.split()[1].startswith("https://lun.ua/"):
+            bot.send_message(message.from_user.id, "❗️Неправильний формат")
+            return
+        link = message.text.split()[1]
+        content = debug_process_order([message.from_user.id, link, -1])
+        send_temp_html(message.from_user.id, content)
+
 
 @bot.message_handler(content_types=['text'])
 def make_order(message):
@@ -43,15 +53,7 @@ def make_order(message):
                                                    " Формат: https://lun.ua/...")
 
 
-@bot.message_handler(commands=['debug_link'])
-def debug_link(message):
-    if "https://lun.ua/" in message.text:
-        if len(message.text.split())<2 or not message.text.split()[1].startswith("https://lun.ua/"):
-            bot.send_message(message.from_user.id, "❗️Неправильний формат")
-            return
-        link = message.text.split()[1]
-        content = debug_process_order([message.from_user.id, link, -1])
-        send_temp_html(message.from_user.id, content)
+
 
 
 def process_order(order: list[str]) -> list[dict]:
