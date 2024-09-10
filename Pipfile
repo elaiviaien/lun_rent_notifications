@@ -13,6 +13,7 @@ curl-cffi = "*"
 redis = "*"
 selenium = "*"
 webdriver-manager = "*"
+retrying = "*"
 
 [dev-packages]
 
