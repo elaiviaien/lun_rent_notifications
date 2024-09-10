@@ -11,6 +11,8 @@ beautifulsoup4 = "*"
 lxml = "*"
 curl-cffi = "*"
 redis = "*"
+selenium = "*"
+webdriver-manager = "*"
 
 [dev-packages]
 
