@@ -2,8 +2,9 @@ import os
 
 from curl_cffi import requests
 from bs4 import BeautifulSoup, ResultSet, Tag
-from telebot.apihelper import proxy
+from dotenv import load_dotenv
 
+load_dotenv()
 
 class LUNRentScraper:
 
