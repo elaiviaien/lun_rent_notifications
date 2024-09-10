@@ -14,6 +14,7 @@ redis = "*"
 selenium = "*"
 webdriver-manager = "*"
 retrying = "*"
+undetected-chromedriver = "*"
 
 [dev-packages]
 
