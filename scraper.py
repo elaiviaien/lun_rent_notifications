@@ -17,7 +17,7 @@ class LUNRentScraper:
             'picture': 'picture  img'
         }
     def get_full_html_page(self)->str:
-        response = requests.get(self.search_url)
+        response = requests.get(self.search_url, impersonate="chrome")
         content = response.text
         return content
 
