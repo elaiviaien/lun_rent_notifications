@@ -1,5 +1,8 @@
+import os
+
 from curl_cffi import requests
 from bs4 import BeautifulSoup, ResultSet, Tag
+from telebot.apihelper import proxy
 
 
 class LUNRentScraper:
@@ -16,8 +19,13 @@ class LUNRentScraper:
             'description': 'p.realty-preview-description__text',
             'picture': 'picture  img'
         }
+
+        self.proxies = {
+            'http': os.getenv("PROXY_URL"),
+            'https': os.getenv("PROXY_URL")}
+
     def get_full_html_page(self)->str:
-        response = requests.get(self.search_url, impersonate="chrome")
+        response = requests.get(self.search_url, proxies=self.proxies, impersonate="chrome")
         content = response.text
         return content
 
@@ -29,7 +37,7 @@ class LUNRentScraper:
         self.search_url = url
 
     def get_page_realties(self, url: str) -> ResultSet[Tag]:
-        response = requests.get(url)
+        response = requests.get(url, proxies=self.proxies, impersonate="chrome")
         soup = BeautifulSoup(response.text, 'lxml')
         soup_realties = soup.select(self.xpaths['root'])
         return soup_realties

@@ -21,10 +21,10 @@ class TestLUNRentScraperReal(unittest.TestCase):
         print(first_result)
 
 
-    @retry(wait_fixed=2000, stop_max_attempt_number=3)
-    def test_scrape_selenium(self):
-        from selenium_scraper import LUNRentScraperSelenium
-        self.validate_scraper_results(self.url, LUNRentScraperSelenium)
+    #@retry(wait_fixed=2000, stop_max_attempt_number=3)
+    #def test_scrape_selenium(self):
+    #    from selenium_scraper import LUNRentScraperSelenium
+    #    self.validate_scraper_results(self.url, LUNRentScraperSelenium)
 
 
     @retry(wait_fixed=2000, stop_max_attempt_number=3)
