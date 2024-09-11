@@ -41,12 +41,13 @@ def make_order(message):
             user_states[message.from_user.id] = 'waiting_for_results'
             bot.send_message(message.from_user.id, "✅Отримав посилання на сторінку з фільтрами")
             bot.send_message(message.from_user.id, "⏳Ось останні оголошення по запиту. Тепер я буду повідомляти про нові")
-            realties = process_order([message.from_user.id, message.text, -1])
+            realties = process_order([message.from_user.id, message.text, -1])[::-1]
             if not realties:
                 remove_order(message.from_user.id)
                 user_states[message.from_user.id] = 'waiting_for_filters'
                 bot.send_message(message.from_user.id, "❗️На жаль, за даним запитом нічого не знайдено. Надішли мені інше посилання")
             else:
+                save_order(int(message.from_user.id), message.text, int(realties[-1]['id']))
                 send_notifications(message.from_user.id, realties)
         else:
             bot.send_message(message.from_user.id, "❗️Надішли мені посилання на сторінку з фільтрами на сайті ЛУН."
