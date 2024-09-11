@@ -91,7 +91,7 @@ def send_notifications(user_id, realties):
     for realty in realties:
         picture_url = realty.get('picture')
 
-        caption = (
+        desc = (
             f"🏠 **Адреса:** {realty.get('address', 'Не вказано')}\n"
             f"💰 **Ціна:** {realty.get('price', 'Не вказано')}\n"
             f"📄 **Опис:** {realty.get('description', 'Опис відсутній')}\n"
@@ -100,13 +100,12 @@ def send_notifications(user_id, realties):
         markup = types.InlineKeyboardMarkup()
         button = types.InlineKeyboardButton("Перейти до оголошення", url=f"https://lun.ua/realty/{realty['id']}")
         markup.add(button)
-
+        shortened_desc = desc[:200] + "..."
         if picture_url:
-            shortened_caption = caption[:200] + "..."
-            bot.send_photo(user_id, picture_url, caption=shortened_caption, parse_mode='Markdown',
+            bot.send_photo(user_id, picture_url, caption=shortened_desc, parse_mode='Markdown',
                            reply_markup=markup)
         else:
-            bot.send_message(user_id, caption[:200], parse_mode='Markdown', reply_markup=markup)
+            bot.send_message(user_id, shortened_desc, parse_mode='Markdown', reply_markup=markup)
 
 
 if __name__ == '__main__':
