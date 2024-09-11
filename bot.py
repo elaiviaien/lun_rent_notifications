@@ -6,8 +6,8 @@ import os
 
 from telebot import types
 
-from scraper import LUNRentScraper
-from utils import save_order, remove_order
+from core.scraper import LUNRentScraper
+from core.utils import save_order, remove_order
 
 load_dotenv()
 BOT_TOKEN = os.getenv('BOT_TOKEN')
