@@ -33,8 +33,9 @@ class LUNRentScraper:
     def _validate_url(self) -> None:
         # remove page argument from url
         url_parts = self.search_url.split('&')
-        url_parts = [part for part in url_parts if not part.startswith('page=')]
+        url_parts = [part for part in url_parts if not part.startswith('page=') and not part.startswith('sort=')]
         url = '&'.join(url_parts)
+        url += '&sort=insert_time'
         self.search_url = url
 
     def get_page_realties(self, url: str) -> ResultSet[Tag]:
@@ -51,7 +52,7 @@ class LUNRentScraper:
                 if key == 'picture':
                     result[key] = realty.select_one(xpath)['src']
                 elif key == 'id':
-                    result[key] = realty['id']
+                    result[key] = int(realty['id'])
                 else:
                     try:
                         result[key] = realty.select_one(xpath).text
@@ -62,7 +63,8 @@ class LUNRentScraper:
 
     def scrape(self) -> list[dict]:
         page = 1
-        results = []
+        new_realties = []
+        all_realties = []
         ids = set()
 
         while True:
@@ -73,16 +75,23 @@ class LUNRentScraper:
                 break
 
             page_results = self.parse(soup_realties)
-            results.extend(page_results)
+            all_realties.extend(page_results)
 
             current_ids = {realty['id'] for realty in page_results}
 
-            if self.last_scraped_id == -1 or self.last_scraped_id in ids:
+            if self.last_scraped_id == -1 or self.last_scraped_id in current_ids:
+                for realty in all_realties:
+                    if realty['id'] == self.last_scraped_id:
+                        break
+                    new_realties.append(realty)
                 break
 
             page += 1
             ids.update(current_ids)
 
-        return results
+
+        return new_realties
+
+
 
 
