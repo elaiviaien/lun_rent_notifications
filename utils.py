@@ -4,8 +4,8 @@ import tempfile
 
 def get_orders() -> list[list[str]]:
     with open('orders.csv', 'r') as file:
-        reader = csv.reader(file)
-        orders = list(reader)
+        reader = csv.DictReader(file)
+        orders = [list(order.values()) for order in reader]
     return orders
 
 

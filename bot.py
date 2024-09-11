@@ -86,7 +86,7 @@ def send_temp_html(user_id, content: str):
 
 
 def send_notifications(user_id, realties):
-
+    bot.send_message(user_id, "🔔 Ось нові оголошення, які відповідають вашим фільтрам:")
     for realty in realties:
         picture_url = realty.get('picture')
 
