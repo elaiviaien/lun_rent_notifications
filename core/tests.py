@@ -24,7 +24,7 @@ class TestLUNRentScraperReal(unittest.TestCase):
 
     @retry(wait_fixed=2000, stop_max_attempt_number=3)
     def test_scrape_curl_cffi(self):
-        from scraper import LUNRentScraper
+        from .scraper import LUNRentScraper
 
         self.validate_scraper_results(self.url, LUNRentScraper)
 

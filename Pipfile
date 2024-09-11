@@ -17,6 +17,7 @@ retrying = "*"
 undetected-chromedriver = "*"
 pylint = "*"
 pytest = "*"
+dill = "*"
 
 [dev-packages]
 
