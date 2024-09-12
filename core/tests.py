@@ -11,7 +11,7 @@ class TestLUNRentScraperReal(unittest.TestCase):
         results = scraper.scrape()
 
         self.assertGreater(
-            len(results), 0, "No realties were scraped from the real page."
+            len(results), 0, "No results found"
         )
 
         first_result = results[0]

@@ -140,4 +140,4 @@ def send_notifications(user_id, realties):
 
 
 if __name__ == "__main__":
-    bot.polling(none_stop=True, interval=0)
+    bot.infinity_polling(timeout=60)
