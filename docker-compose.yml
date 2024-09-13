@@ -1,9 +1,9 @@
 version: '3.8'
 
 services:
-  app:
+  bot:
     build: .
-    command: pipenv run supervisord -c /etc/supervisor/conf.d/supervisord.conf
+    command: pipenv run python /app/bot.py
     volumes:
       - .:/app
     environment:
@@ -11,8 +11,42 @@ services:
       - REDIS_PORT=6379
     networks:
       - lun_network
+    restart: always
+
+  celery_worker:
+    build: .
+    command: pipenv run celery -A core.tasks worker --loglevel=info
+    volumes:
+      - .:/app
+    environment:
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+    networks:
+      - lun_network
+
+  celery_beat:
+    build: .
+    command: pipenv run celery -A core.tasks beat --loglevel=info
+    volumes:
+      - .:/app
+    environment:
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+    networks:
+      - lun_network
+
+  flower:
+    build: .
+    command: pipenv run celery -A core.tasks flower --port=5555
     ports:
       - "5555:5555"
+    volumes:
+      - .:/app
+    environment:
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+    networks:
+      - lun_network
 
   redis:
     image: redis
