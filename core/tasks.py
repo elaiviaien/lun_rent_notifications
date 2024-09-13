@@ -6,7 +6,7 @@ from celery.schedules import crontab
 
 app = Celery('tasks', broker='redis://redis:6379/0', backend='redis://redis:6379/0')
 
-@app.task(time_limit=60)
+@app.task(time_limit=60, soft_time_limit=30)
 def periodic_scraping():
     orders = get_orders()
     for order in orders:
