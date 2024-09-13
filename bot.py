@@ -50,10 +50,6 @@ def make_order(message):
             bot.send_message(
                 message.from_user.id, "✅Отримав посилання на сторінку з фільтрами"
             )
-            bot.send_message(
-                message.from_user.id,
-                "⏳Ось останні оголошення по запиту. Тепер я буду повідомляти про нові",
-            )
             realties = process_order([message.from_user.id, message.text, -1])[::-1]
             if not realties:
                 remove_order(message.from_user.id)
