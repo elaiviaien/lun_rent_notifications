@@ -20,6 +20,7 @@ pytest = "*"
 dill = "*"
 celery = "*"
 flower = "*"
+setuptools = "*"
 
 [dev-packages]
 

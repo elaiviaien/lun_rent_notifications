@@ -24,10 +24,16 @@ class TestLUNRentScraperReal(unittest.TestCase):
 
     @retry(wait_fixed=2000, stop_max_attempt_number=3)
     def test_scrape_curl_cffi(self):
-        from .scraper import LUNRentScraper
+        from .curl_cffi_scraper import LUNRentScraperCurl
 
-        self.validate_scraper_results(self.url, LUNRentScraper)
+        self.validate_scraper_results(self.url, LUNRentScraperCurl)
 
+    # Uncomment if chrome is installed
+    # @retry(wait_fixed=2000, stop_max_attempt_number=3)
+    # def test_scrape_selenium(self):
+    #     from .selenium_scraper import LUNRentScraperSelenium
+    #
+    #     self.validate_scraper_results(self.url, LUNRentScraperSelenium)
 
 if __name__ == "__main__":
     unittest.main()

@@ -15,7 +15,7 @@ services:
 
   celery_worker:
     build: .
-    command: pipenv run celery -A core.tasks worker --loglevel=info
+    command: pipenv run celery -A core.tasks worker --loglevel=info --purge
     volumes:
       - .:/app
     environment:
@@ -26,7 +26,7 @@ services:
 
   celery_beat:
     build: .
-    command: pipenv run celery -A core.tasks beat --loglevel=info --purge
+    command: pipenv run celery -A core.tasks beat --loglevel=info
     volumes:
       - .:/app
     environment:

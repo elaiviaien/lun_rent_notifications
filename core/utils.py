@@ -36,12 +36,3 @@ def remove_order(user_id: int) -> None:
         writer = csv.writer(file)
         writer.writerows(orders)
 
-
-def save_temp_page(content: str) -> str:
-    with tempfile.NamedTemporaryFile(
-        mode="w+", delete=False, prefix="debug_", suffix=".html"
-    ) as _file:
-        _file.write(content)
-        temp_file_name = _file.name
-
-    return temp_file_name

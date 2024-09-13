@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 
 from telebot import types
 
-from core.scraper import LUNRentScraper
+from core.curl_cffi_scraper import LUNRentScraperCurl
 from core.utils import save_order, remove_order
 
 load_dotenv()
@@ -74,7 +74,7 @@ def make_order(message):
 def process_order(order: list[str]) -> list[dict]:
     _, search_url, last_scraped_id = order
 
-    scraper = LUNRentScraper(search_url, int(last_scraped_id))
+    scraper = LUNRentScraperCurl(search_url, int(last_scraped_id))
     realties = scraper.scrape()
 
     return realties
@@ -83,7 +83,7 @@ def process_order(order: list[str]) -> list[dict]:
 def debug_process_order(order: list[str]) -> str:
     _, search_url, last_scraped_id = order
 
-    scraper = LUNRentScraper(search_url, int(last_scraped_id))
+    scraper = LUNRentScraperCurl(search_url, int(last_scraped_id))
     content = scraper.get_full_html_page()
 
     return content
