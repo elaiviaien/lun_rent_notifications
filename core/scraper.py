@@ -22,11 +22,13 @@ class LUNRentScraper:
             "picture": "picture  img",
         }
 
+        self.session = requests.Session()
+
         self.proxies = {"http": os.getenv("PROXY_URL"), "https": os.getenv("PROXY_URL")}
 
     def get_full_html_page(self) -> str:
-        response = requests.get(
-            self.search_url, proxies=self.proxies, impersonate="chrome"
+        response = self.session.get(
+            self.search_url, proxies=self.proxies, impersonate="chrome",
         )
         content = response.text
         return content
@@ -44,7 +46,7 @@ class LUNRentScraper:
         self.search_url = url
 
     def get_page_realties(self, url: str) -> ResultSet[Tag]:
-        response = requests.get(url, proxies=self.proxies, impersonate="chrome")
+        response = self.session.get(url, proxies=self.proxies, impersonate="chrome")
         soup = BeautifulSoup(response.text, "lxml")
         soup_realties = soup.select(self.xpaths["root"])
         return soup_realties
