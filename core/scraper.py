@@ -49,21 +49,25 @@ class LUNRentScraper:
         soup_realties = soup.select(self.xpaths["root"])
         return soup_realties
 
+
     def parse(self, soup_realties: ResultSet[Tag]) -> list[dict]:
         results = []
+
         for realty in soup_realties:
             result = {}
-            for key, xpath in self.xpaths.items():
-                if key == "picture":
-                    result[key] = realty.select_one(xpath)["src"]
-                elif key == "id":
-                    result[key] = int(realty["id"])
-                else:
-                    try:
-                        result[key] = realty.select_one(xpath).text
-                    except AttributeError:
-                        result[key] = None
+
+            if not realty.get("id"):
+                continue
+
+            result["id"] = int(realty["id"])
+            result["price"] = realty.select_one(self.xpaths["price"]).text
+            result["address"] = realty.select_one(self.xpaths["address"]).text
+            result["description"] = realty.select_one(self.xpaths["description"]).text
+            picture = realty.select_one(self.xpaths["picture"])
+            result["picture"] = picture.get("src") if picture else None
+
             results.append(result)
+
         return results
 
     def scrape(self) -> list[dict]:
