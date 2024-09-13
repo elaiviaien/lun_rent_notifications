@@ -4,3 +4,4 @@ orders.csv
 supervisord.pid
 supervisord.log
 __pycache__
+celerybeat-schedule
