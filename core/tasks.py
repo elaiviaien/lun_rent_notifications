@@ -6,10 +6,6 @@ from celery.schedules import crontab
 
 app = Celery('tasks', broker='redis://redis:6379/0', backend='redis://redis:6379/0')
 
-app.conf.update(
-    result_expires=3600,
-)
-
 @app.task
 def periodic_scraping():
     orders = get_orders()
