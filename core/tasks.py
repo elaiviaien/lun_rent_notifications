@@ -36,8 +36,8 @@ def selenium_scraping():
             send_notifications(order[0], realties)
 
 @app.task
-def handle_curl_failure(exc, task_id, args, kwargs, einfo):
-    logging.info(f"Curl scraping failed or exceeded time limit: {exc}")
+def handle_curl_failure(request, exc, traceback):
+    logging.info(f"Curl scraping failed or exceeded time limit")
 
     selenium_scraping.delay()
 
