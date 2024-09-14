@@ -13,6 +13,7 @@ def curl_scraping():
         _, search_url, last_scraped_id = order
         scraper = LUNRentScraperCurl(search_url, int(last_scraped_id))
         realties = scraper.scrape()
+        logger.info(f"Scraped {len(realties)} realties")
         if realties:
             save_order(int(order[0]), order[1], int(realties[-1]["id"]))
             save_only_new_realties(realties, int(order[0]))
@@ -26,6 +27,7 @@ def selenium_scraping():
         _, search_url, last_scraped_id = order
         scraper = LUNRentScraperSelenium(search_url, int(last_scraped_id))
         realties = scraper.scrape()
+        logger.info(f"Scraped {len(realties)} realties")
         if realties:
             save_order(int(order[0]), order[1], int(realties[-1]["id"]))
             save_only_new_realties(realties, int(order[0]))
