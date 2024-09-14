@@ -19,7 +19,7 @@ class LUNRentScraperSelenium(LUNRentScraper):
         chrome_options.add_argument("--no-sandbox")
         chrome_options.add_argument("--disable-dev-shm-usage")
 
-        driver = Chrome(version_main=128, options=chrome_options)
+        driver = Chrome(version_main=123, options=chrome_options)
         return driver
 
     def get_full_html_page(self, url: str=None) -> str:
