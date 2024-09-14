@@ -5,3 +5,5 @@ supervisord.pid
 supervisord.log
 __pycache__
 celerybeat-schedule
+realties
+realties/*

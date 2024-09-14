@@ -1,0 +1,3 @@
+2024-09-14 13:47:01,817 - core.logger - INFO - Running curl scraping
+2024-09-14 13:47:03,290 - core.logger - INFO - Curl scraping finished
+* * * * * /home/oliverqa/.local/share/virtualenvs/lun_rent_notifications-hjLDV0SE/bin/python ~/Documents/lun_rent_notifications/cron_scraping.py >> ~/Documents/lun_rent_notifications/cron.log 2>&1

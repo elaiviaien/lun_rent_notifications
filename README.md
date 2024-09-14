@@ -52,6 +52,23 @@ docker compose up -d --build
 1. Після запуску контейнера бот почне отримувати дані з ЛУН.ua.
 2. Сповіщення будуть автоматично надходити відповідно до налаштувань.
 
+### Крок 5: Налаштування cron
+```bash
+crontab -e
+```
+```bash
+* * * * * [python path] [your path]/lun_rent_notifications/cron_scraping.py >> [your path]/lun_rent_notifications/cron.log 2>&1
+```
+
+### Отримання логів
+Щоб отримати логи бота, відправте потрібну команду:
+```message
+/get_lates_logs [кількість рядків]
+```
+### Щоб отримати html сторінку з оголошеннями
+```message
+/debug_link [link]
+```
 
 ## Вимоги
 

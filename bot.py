@@ -8,6 +8,7 @@ from telebot import types
 
 from core.curl_cffi_scraper import LUNRentScraperCurl
 from core.utils import save_order, remove_order
+script_dir = os.path.dirname(os.path.abspath(__file__))
 
 load_dotenv()
 BOT_TOKEN = os.getenv("BOT_TOKEN")
@@ -26,8 +27,6 @@ def start(message):
         message.from_user.id,
         "🔗Надішли мені посилання на сторінку з фільтрами на сайті ЛУН",
     )
-
-
 @bot.message_handler(commands=["debug_link"])
 def debug_link(message):
     if "https://lun.ua/" in message.text:
@@ -40,6 +39,17 @@ def debug_link(message):
         content = debug_process_order([message.from_user.id, link, -1])
         send_temp_html(message.from_user.id, content)
 
+@bot.message_handler(commands=["get_last_logs"])
+def get_last_logs(message):
+    try:
+        command, max_lines_str = message.text.split()
+        max_lines = int(max_lines_str)
+    except (ValueError, IndexError):
+        max_lines = 1000
+
+    log_file_paths = ["scraping.log", "cron.log"]
+    for log_file_path in log_file_paths:
+        send_log_file(message, log_file_path, max_lines)
 
 @bot.message_handler(content_types=["text"])
 def make_order(message):
@@ -69,8 +79,23 @@ def make_order(message):
                 "❗️Надішли мені посилання на сторінку з фільтрами на сайті ЛУН."
                 " Формат: https://lun.ua/...",
             )
+def send_log_file(message, log_file_path, max_lines):
+    if os.path.exists(log_file_path):
+        with open(os.path.join(script_dir,log_file_path), "r") as file:
+            lines = file.readlines()
+            if len(lines) > max_lines:
+                lines = lines[-max_lines:]
 
+        with tempfile.NamedTemporaryFile(mode="w+", delete=False, suffix=".log") as temp_file:
+            temp_file.writelines(lines)
+            temp_file.flush()
+            temp_file_name = temp_file.name
 
+        with open(temp_file_name, "rb") as file_to_send:
+            bot.send_document(message.from_user.id, file_to_send)
+        os.remove(temp_file_name)
+    else:
+        bot.send_message(message.from_user.id, "Log file not found.")
 def process_order(order: list[str]) -> list[dict]:
     _, search_url, last_scraped_id = order
 

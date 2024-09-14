@@ -18,8 +18,6 @@ undetected-chromedriver = "*"
 pylint = "*"
 pytest = "*"
 dill = "*"
-celery = "*"
-flower = "*"
 setuptools = "*"
 
 [dev-packages]
